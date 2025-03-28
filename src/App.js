@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import GlobalStyle from './styles/GlobalStyles';
 import HomePage from './HomePage';
@@ -26,7 +27,6 @@ const GlobalWrapper = styled.div`
 `;
 
 function App() {
-  import { useEffect } from 'react';
 
 useEffect(() => {
   new Image().src = '/assets/social-preview.png';
