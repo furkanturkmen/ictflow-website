@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { LanguageContext } from './LanguageContext';
+import SEO from './SEO';
 
 const Page = styled.div`
   display: flex;
@@ -31,13 +33,29 @@ const Paragraph = styled.p`
 `;
 
 export default function HomePage() {
+  const { lang } = useContext(LanguageContext);
+
+  const content = {
+    en: {
+      title: 'Welcome to ICT Flow',
+      text: 'We help small businesses streamline their workflow by implementing and managing Microsoft 365 Business Basic tools — from communication to licenses.',
+      seoTitle: 'ICT Flow – Streamline with Microsoft 365',
+      seoDesc: 'Helping small businesses simplify with Microsoft 365 Business Basic.'
+    },
+    nl: {
+      title: 'Welkom bij ICT Flow',
+      text: 'Wij helpen kleine bedrijven hun workflow te verbeteren door Microsoft 365 Business Basic te implementeren en te beheren — van communicatie tot licentiebeheer.',
+      seoTitle: 'ICT Flow – Workflow optimaliseren',
+      seoDesc: 'Wij helpen kleine bedrijven efficiënter werken met Microsoft 365.'
+    }
+  };
+
   return (
     <Page>
+      <SEO title={content[lang].seoTitle} description={content[lang].seoDesc} />
       <Container>
-        <Title>Welcome to ICT Flow</Title>
-        <Paragraph>
-          We help small businesses streamline their workflow by implementing and managing Microsoft 365 Business Basic tools — from communication to licenses.
-        </Paragraph>
+        <Title>{content[lang].title}</Title>
+        <Paragraph>{content[lang].text}</Paragraph>
       </Container>
     </Page>
   );

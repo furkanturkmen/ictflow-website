@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { LanguageContext } from './LanguageContext';
+import SEO from './SEO';
 
 const Page = styled.div`
   display: flex;
@@ -31,19 +33,37 @@ const Paragraph = styled.p`
 `;
 
 export default function PrivacyPage() {
+  const { lang } = useContext(LanguageContext);
+
+  const content = {
+    en: {
+      title: 'Privacy Policy',
+      seoTitle: 'ICT Flow – Privacy Policy',
+      seoDesc: 'How ICT Flow handles your data, cookies, and communication securely.',
+      paragraphs: [
+        'We only collect data necessary for communication and analytics. ICT Flow does not share your information with third parties.',
+        'By using our services, you agree to the collection of limited anonymized analytics (via Plausible) and contact information as needed for inquiries.'
+      ]
+    },
+    nl: {
+      title: 'Privacybeleid',
+      seoTitle: 'ICT Flow – Privacybeleid',
+      seoDesc: 'Hoe ICT Flow veilig omgaat met uw gegevens, cookies en communicatie.',
+      paragraphs: [
+        'We verzamelen alleen gegevens die nodig zijn voor communicatie en analytics. ICT Flow deelt uw informatie niet met derden.',
+        'Door onze diensten te gebruiken, stemt u in met het verzamelen van beperkte geanonimiseerde analytics (via Plausible) en contactgegevens voor vragen.'
+      ]
+    }
+  };
+
   return (
     <Page>
+      <SEO title={content[lang].seoTitle} description={content[lang].seoDesc} />
       <Container>
-        <Title>Privacy Policy</Title>
-        <Paragraph>
-          ICT Flow values your privacy. We only collect the information you provide through our contact form, such as your name and email address. This data is used solely to respond to inquiries and is never shared with third parties.
-        </Paragraph>
-        <Paragraph>
-          By using this website, you agree to this privacy policy. We do not use tracking cookies and we do not collect personal data beyond what is voluntarily submitted.
-        </Paragraph>
-        <Paragraph>
-          For any questions, feel free to reach out via our contact form.
-        </Paragraph>
+        <Title>{content[lang].title}</Title>
+        {content[lang].paragraphs.map((text, index) => (
+          <Paragraph key={index}>{text}</Paragraph>
+        ))}
       </Container>
     </Page>
   );

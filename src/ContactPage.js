@@ -1,6 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import emailjs, { init } from '@emailjs/browser';
+import { LanguageContext } from './LanguageContext';
+import SEO from './SEO';
 
 const Page = styled.div`
   display: flex;
@@ -72,10 +74,40 @@ export default function ContactPage() {
   const form = useRef();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const { lang } = useContext(LanguageContext);
 
   useEffect(() => {
     init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   }, []);
+
+  const content = {
+    en: {
+      title: 'Contact Us',
+      namePlaceholder: 'Your name',
+      emailPlaceholder: 'Your email',
+      messagePlaceholder: 'Your message',
+      submit: 'Send',
+      required: 'All fields are required.',
+      invalid: 'Please enter a valid email address.',
+      error: 'Failed to send message. Please try again.',
+      success: 'Message sent successfully!',
+      seoTitle: 'Contact ICT Flow – Ask us anything',
+      seoDesc: 'Get in touch with ICT Flow for questions about our Microsoft 365 services.'
+    },
+    nl: {
+      title: 'Neem contact op',
+      namePlaceholder: 'Uw naam',
+      emailPlaceholder: 'Uw e-mailadres',
+      messagePlaceholder: 'Uw bericht',
+      submit: 'Versturen',
+      required: 'Alle velden zijn verplicht.',
+      invalid: 'Vul een geldig e-mailadres in.',
+      error: 'Bericht verzenden mislukt. Probeer het opnieuw.',
+      success: 'Bericht succesvol verzonden!',
+      seoTitle: 'Neem contact op met ICT Flow',
+      seoDesc: 'Stel ons uw vragen over Microsoft 365 of onze services. Wij helpen u graag.'
+    }
+  };
 
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -92,12 +124,12 @@ export default function ContactPage() {
     const message = formData.get("message");
 
     if (!name || !email || !message) {
-      setError("All fields are required.");
+      setError(content[lang].required);
       return;
     }
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
+      setError(content[lang].invalid);
       return;
     }
 
@@ -111,22 +143,23 @@ export default function ContactPage() {
       setSuccess(true);
       form.current.reset();
     } catch (err) {
-      setError("Failed to send message. Please try again.");
+      setError(content[lang].error);
     }
   };
 
   return (
     <Page>
+      <SEO title={content[lang].seoTitle} description={content[lang].seoDesc} />
       <Container>
-        <Title>Contact Us</Title>
+        <Title>{content[lang].title}</Title>
         <Form ref={form} onSubmit={sendEmail}>
-          <Input type="text" name="user_name" placeholder="Your name" required />
-          <Input type="email" name="user_email" placeholder="Your email" required />
-          <Textarea name="message" placeholder="Your message" required />
+          <Input type="text" name="user_name" placeholder={content[lang].namePlaceholder} required />
+          <Input type="email" name="user_email" placeholder={content[lang].emailPlaceholder} required />
+          <Textarea name="message" placeholder={content[lang].messagePlaceholder} required />
           <input type="hidden" name="reply_to" value={form.current?.user_email?.value || ''} />
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          <Button type="submit">Send</Button>
-          {success && <SuccessMessage>Message sent successfully!</SuccessMessage>}
+          <Button type="submit">{content[lang].submit}</Button>
+          {success && <SuccessMessage>{content[lang].success}</SuccessMessage>}
         </Form>
       </Container>
     </Page>

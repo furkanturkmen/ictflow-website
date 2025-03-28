@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
+import { LanguageContext } from './LanguageContext';
+import SEO from './SEO';
 
 const Page = styled.div`
   display: flex;
@@ -124,6 +126,52 @@ const CloseButton = styled.button`
 
 export default function DashboardPage() {
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const { lang } = useContext(LanguageContext);
+
+  const content = {
+    en: {
+      sections: [
+        { title: 'Overview', text: 'View key insights and workflow summaries from your Microsoft 365 environment.' },
+        { title: 'Users', text: 'Manage employee accounts and collaboration tools.' },
+        { title: 'Licenses', text: 'Monitor and assign licenses for Microsoft 365 Business Basic.' },
+        { title: 'Plans', text: 'Choose the right service plan for your business.' }
+      ],
+      plans: ['Starter', 'Standard', 'Premium'],
+      prices: ['€6 / month', '€12 / month', '€16 / month'],
+      features: [
+        ['Email & Calendar', '1 User Setup', 'Basic Support'],
+        ['Microsoft 365 Setup', 'Up to 5 Users', 'Priority Support'],
+        ['Full M365 Integration', 'Unlimited Users', 'Dedicated Consultant']
+      ],
+      choose: 'Choose Plan',
+      thankYou: 'Thank you for choosing the',
+      closingNote: "We’ll reach out to you shortly to get started.",
+      close: 'Close',
+      seoTitle: 'ICT Flow Dashboard – Insights & Licenses',
+      seoDesc: 'Access and manage your Microsoft 365 tools, plans and licenses with ease.'
+    },
+    nl: {
+      sections: [
+        { title: 'Overzicht', text: 'Bekijk belangrijke inzichten en workflow-samenvattingen van uw Microsoft 365-omgeving.' },
+        { title: 'Gebruikers', text: 'Beheer medewerkersaccounts en samenwerkingstools.' },
+        { title: 'Licenties', text: 'Monitor en wijs licenties toe voor Microsoft 365 Business Basic.' },
+        { title: 'Pakketten', text: 'Kies het juiste servicepakket voor uw bedrijf.' }
+      ],
+      plans: ['Instap', 'Standaard', 'Premium'],
+      prices: ['€6 / maand', '€12 / maand', '€16 / maand'],
+      features: [
+        ['E-mail & Agenda', '1 Gebruiker Setup', 'Basis Ondersteuning'],
+        ['Microsoft 365 Setup', 'Tot 5 Gebruikers', 'Prioriteits Ondersteuning'],
+        ['Volledige M365 Integratie', 'Onbeperkt Gebruikers', 'Toegewijde Consultant']
+      ],
+      choose: 'Kies Pakket',
+      thankYou: 'Bedankt voor het kiezen van het',
+      closingNote: 'We nemen binnenkort contact met u op om te starten.',
+      close: 'Sluiten',
+      seoTitle: 'ICT Flow Dashboard – Inzicht & Licenties',
+      seoDesc: 'Beheer eenvoudig uw Microsoft 365 tools, plannen en licenties.'
+    }
+  };
 
   const handleChoosePlan = (plan) => {
     setSelectedPlan(plan);
@@ -133,35 +181,26 @@ export default function DashboardPage() {
 
   return (
     <Page>
+      <SEO title={content[lang].seoTitle} description={content[lang].seoDesc} />
       <Container>
         <Title>Dashboard</Title>
+        {content[lang].sections.map((section, index) => (
+          <Section key={index}>
+            <Heading>{section.title}</Heading>
+            <Text>{section.text}</Text>
+          </Section>
+        ))}
         <Section>
-          <Heading>Overview</Heading>
-          <Text>View key insights and workflow summaries from your Microsoft 365 environment.</Text>
-        </Section>
-        <Section>
-          <Heading>Users</Heading>
-          <Text>Manage employee accounts and collaboration tools.</Text>
-        </Section>
-        <Section>
-          <Heading>Licenses</Heading>
-          <Text>Monitor and assign licenses for Microsoft 365 Business Basic.</Text>
-        </Section>
-        <Section>
-          <Heading>Plans</Heading>
+          <Heading>{content[lang].sections[3].title}</Heading>
           <PlansWrapper className="plans-wrapper">
-            {['Starter', 'Standard', 'Premium'].map((name, idx) => (
+            {content[lang].plans.map((name, idx) => (
               <Plan key={name} className="plan-card">
                 <PlanTitle>{name}</PlanTitle>
-                <PlanPrice>{['€6/month', '€12/month', '€16/month'][idx]}</PlanPrice>
+                <PlanPrice>{content[lang].prices[idx]}</PlanPrice>
                 <PlanFeatures>
-                  {[
-                    ['Email & Calendar', '1 User Setup', 'Basic Support'],
-                    ['Microsoft 365 Setup', 'Up to 5 Users', 'Priority Support'],
-                    ['Full M365 Integration', 'Unlimited Users', 'Dedicated Consultant'],
-                  ][idx].map((item, i) => <li key={i}>{item}</li>)}
+                  {content[lang].features[idx].map((item, i) => <li key={i}>{item}</li>)}
                 </PlanFeatures>
-                <PlanButton onClick={() => handleChoosePlan(name)}>Choose Plan</PlanButton>
+                <PlanButton onClick={() => handleChoosePlan(name)}>{content[lang].choose}</PlanButton>
               </Plan>
             ))}
           </PlansWrapper>
@@ -170,9 +209,9 @@ export default function DashboardPage() {
       {selectedPlan && (
         <Modal>
           <ModalContent>
-            <h3>Thank you for choosing the {selectedPlan} plan!</h3>
-            <p>We’ll reach out to you shortly to get started.</p>
-            <CloseButton onClick={closeModal}>Close</CloseButton>
+            <h3>{content[lang].thankYou} {selectedPlan} plan!</h3>
+            <p>{content[lang].closingNote}</p>
+            <CloseButton onClick={closeModal}>{content[lang].close}</CloseButton>
           </ModalContent>
         </Modal>
       )}
