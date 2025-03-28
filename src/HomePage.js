@@ -9,7 +9,6 @@ const Page = styled.div`
   min-height: 100vh;
 `;
 
-
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 0.9);
   padding: 3rem 2rem;
