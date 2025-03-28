@@ -5,6 +5,9 @@ import GlobalStyle from './styles/GlobalStyles';
 import HomePage from './HomePage';
 import ContactPage from './ContactPage';
 import DashboardPage from './DashboardPage';
+import PrivacyPage from './PrivacyPage';
+import CookiesPage from './CookiesPage';
+import LegalPage from './LegalPage';
 
 const Navbar = styled.nav`
   background-color: #222;
@@ -72,6 +75,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/cookies" element={<CookiesPage />} />
+          <Route path="/legal" element={<LegalPage />} />
         </Routes>
       </GlobalWrapper>
     </Router>
