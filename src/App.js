@@ -13,6 +13,13 @@ const Navbar = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 `;
 
 const NavLinks = styled.div`
@@ -24,27 +31,49 @@ const NavLinks = styled.div`
     text-decoration: none;
     font-weight: bold;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+    a {
+      padding: 0.5rem 0;
+    }
+  }
+`;
+
+const GlobalWrapper = styled.div`
+  @media (max-width: 768px) {
+    .plans-wrapper {
+      flex-direction: column;
+    }
+
+    .plan-card {
+      width: 100% !important;
+    }
+  }
 `;
 
 function App() {
   return (
     <Router>
       <GlobalStyle />
-      <Navbar>
-        <Link to="/">
-          <img src="/assets/ictflow_logo_white_bgless.png" alt="ICT Flow Logo" style={{ height: '40px' }} />
-        </Link>
-        <NavLinks>
-          <Link to="/">Home</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/dashboard">Dashboard</Link>
-        </NavLinks>
-      </Navbar>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-      </Routes>
+      <GlobalWrapper>
+        <Navbar>
+          <Link to="/">
+            <img src="/assets/ictflow_logo_white_bgless.png" alt="ICT Flow Logo" style={{ height: '40px' }} />
+          </Link>
+          <NavLinks>
+            <Link to="/">Home</Link>
+            <Link to="/contact">Contact</Link>
+            <Link to="/dashboard">Dashboard</Link>
+          </NavLinks>
+        </Navbar>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+        </Routes>
+      </GlobalWrapper>
     </Router>
   );
 }

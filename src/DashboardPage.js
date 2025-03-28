@@ -8,7 +8,7 @@ const Page = styled.div`
   padding: 4rem 1rem;
   min-height: 100vh;
 `;
-``
+
 const Container = styled.div`
   background-color: rgba(255, 255, 255, 0.9);
   padding: 3rem 2rem;
@@ -149,9 +149,9 @@ export default function DashboardPage() {
         </Section>
         <Section>
           <Heading>Plans</Heading>
-          <PlansWrapper>
+          <PlansWrapper className="plans-wrapper">
             {['Starter', 'Standard', 'Premium'].map((name, idx) => (
-              <Plan key={name}>
+              <Plan key={name} className="plan-card">
                 <PlanTitle>{name}</PlanTitle>
                 <PlanPrice>{['€6/month', '€12/month', '€16/month'][idx]}</PlanPrice>
                 <PlanFeatures>
