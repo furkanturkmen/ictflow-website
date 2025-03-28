@@ -26,6 +26,12 @@ const GlobalWrapper = styled.div`
 `;
 
 function App() {
+  import { useEffect } from 'react';
+
+useEffect(() => {
+  new Image().src = '/assets/social-preview.png';
+}, []);
+
   return (
     <LanguageProvider>
       <Router>
